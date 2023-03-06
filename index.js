@@ -26,7 +26,7 @@ app.get("/api/hello", function (req, res) {
 
 // request json object with unix key
 app.get("/api/:date?", function(req, res) {
-  // date is passed in the form '2015-12-25' or '1451001600000'
+  // date is passed as string '2015-12-25' or '1451001600000'
   // if date is empty, return current date in unix and utc
   const date = req.params.date;
   let unix, utc;
@@ -35,9 +35,11 @@ app.get("/api/:date?", function(req, res) {
   if (!date) {
     unix = new Date().getTime();
     utc = new Date().toUTCString();
-  } else {
+  } else if (Date.parse(date)) {
     unix = date.includes('-') ? new Date(date).getTime() : Number(date);
     utc = date.includes('-') ? new Date(date).toUTCString() : new Date(Number(date)).toUTCString(); 
+  } else {
+    return res.json({ error: 'Invalid Date'});
   }
   res.json({ unix, utc });
 });
