@@ -41,15 +41,14 @@ app.get("/api/:date?", function(req, res) {
     // try to pase from String
     let parsedDate = new Date(date).toString();
     if (dateFromNumber !== 'Invalid Date') {
-      unix = new Date(Number(dateFromNumber)).getTime();
-      utc = new Date(Number(dateFromNumber)).toUTCString();
-
+      unix = new Date(Number(date)).getTime();
+      utc = new Date(Number(date)).toUTCString();
+      return res.json({ unix, utc });
     } else if (parsedDate === 'Invalid Date') {
       return res.json({ error: parsedDate });
-    } else {
-      unix = new Date(date).getTime();
-      utc = new Date(date).toUTCString();
     }
+    unix = new Date(date).getTime();
+    utc = new Date(date).toUTCString();
   }
   res.json({ unix, utc });
 });
