@@ -35,11 +35,15 @@ app.get("/api/:date?", function(req, res) {
   if (!date) {
     unix = new Date().getTime();
     utc = new Date().toUTCString();
-  } else if (Date.parse(date)) {
-    unix = date.includes('-') ? new Date(date).getTime() : Number(date);
-    utc = date.includes('-') ? new Date(date).toUTCString() : new Date(Number(date)).toUTCString(); 
   } else {
-    return res.json({ error: 'Invalid Date'});
+    // unix = date.includes('-') ? new Date(date).getTime() : Number(date);
+    // utc = date.includes('-') ? new Date(date).toUTCString() : new Date(Number(date)).toUTCString();
+    let parsedDate = new Date(date).toString();
+    if (parsedDate === 'Invalid Date') {
+      return res.json({ error: parsedDate });
+    }
+    unix = new Date(date).getTime();
+    utc = new Date(date).toUTCString();
   }
   res.json({ unix, utc });
 });
