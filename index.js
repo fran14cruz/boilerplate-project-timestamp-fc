@@ -34,10 +34,10 @@ app.get("/api/:date?", function(req, res) {
   // check if falsy
   if (!date) {
     unix = new Date().getTime();
-    utc = new Date().toString();
+    utc = new Date().toUTCString();
   } else {
     unix = date.includes('-') ? new Date(date).getTime() : Number(date);
-    utc = date.includes('-') ? new Date(date).toString() : new Date(Number(date)).toString(); 
+    utc = date.includes('-') ? new Date(date).toUTCString() : new Date(Number(date)).toString(); 
   }
   res.json({ unix, utc });
 });
