@@ -38,12 +38,20 @@ app.get("/api/:date?", function(req, res) {
   } else {
     // unix = date.includes('-') ? new Date(date).getTime() : Number(date);
     // utc = date.includes('-') ? new Date(date).toUTCString() : new Date(Number(date)).toUTCString();
-    let parsedDate = new Date(date).toString();
-    if (parsedDate === 'Invalid Date') {
+    // try to parse to Number
+    let dateFromNumber = new Date(Number(date)).toString();
+    if (dateFromNumber !== 'Invalid Date') {
+      unix = new Date(Number(dateFromNumber)).getTime();
+      utc = new Date(Number(dateFromNumber)).toUTCString();
+
+      // try to pase from String
+      let parsedDate = new Date(date).toString();
+    } else if (parsedDate === 'Invalid Date') {
       return res.json({ error: parsedDate });
+    } else {
+      unix = new Date(date).getTime();
+      utc = new Date(date).toUTCString();
     }
-    unix = new Date(date).getTime();
-    utc = new Date(date).toUTCString();
   }
   res.json({ unix, utc });
 });
