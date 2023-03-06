@@ -37,7 +37,7 @@ app.get("/api/:date?", function(req, res) {
     utc = new Date().toUTCString();
   } else {
     unix = date.includes('-') ? new Date(date).getTime() : Number(date);
-    utc = date.includes('-') ? new Date(date).toUTCString() : new Date(Number(date)).toString(); 
+    utc = date.includes('-') ? new Date(date).toUTCString() : new Date(Number(date)).toUTCString(); 
   }
   res.json({ unix, utc });
 });
